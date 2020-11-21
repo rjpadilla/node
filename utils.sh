@@ -49,6 +49,12 @@ is_base() {
   echo "true"
 }
 
+base_result(){
+  arm_base=$(is_base $1 $2)
+  arm64_base=$(is_base $3 $4)
+  amd64_base=$(is_base $5 $6)
+}
+
 image_version() {
   local version
   repo=$1    # nginx repo
@@ -57,9 +63,9 @@ image_version() {
 }
 
 compare() {
-  result_arm=$(is_base $1 $2)
-  result_arm64=$(is_base $3 $4)
-  result_amd64=$(is_base $5 $6)
+  result_arm=$(base_result $1 $2)
+  result_arm64=$(base_result $3 $4)
+  result_amd64=$(base_result $5 $6)
   if [ $result_arm == "false" ] || [ $result_amd64 == "false" ] || [ $result_arm64 == "false" ];
   then
     echo "true"
